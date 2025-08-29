@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Upload Gate Paper</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+      input,
+      select {
+        width: 300px;
+        padding: 8px;
+      }
+      .btn {
+        padding: 10px 20px;
+        background: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background: #0056b3;
+      }
+      .alert {
+        padding: 10px;
+        margin-bottom: 20px;
+        border-radius: 4px;
+      }
+      .alert-success {
+        background: #d4edda;
+        color: #155724;
+      }
+      .alert-danger {
+        background: #f8d7da;
+        color: #721c24;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Upload Gate Paper</h2>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">{{ message }}</div>
+    {% endfor %} {% endif %} {% endwith %}
+    <form method="post" enctype="multipart/form-data">
+      <div class="form-group">
+        <label for="stream">Streams</label>
+        <select name="stream" id="stream" required>
+          <option value="">Select Stream</option>
+          {% for stream in streams %}
+          <option value="{{ stream.id }}">
+            {{ stream.name }} ({{ stream.code }})
+          </option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="year">Paper Year</label>
+        <input
+          type="number"
+          name="year"
+          id="year"
+          min="2000"
+          max="2100"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="set_code">Set</label>
+        <select name="set_code" id="set_code" required>
+          <option value="A">A</option>
+          <option value="B">B</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="paper_type">Paper Type</label>
+        <select name="paper_type" id="paper_type" required>
+          <option value="PREVIOUS_YEAR">Previous Year</option>
+          <option value="MOCK">Mock</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="paper">Paper Upload</label>
+        <input type="file" name="paper" id="paper" accept="application/pdf" />
+      </div>
+      <div class="form-group">
+        <label for="key">Key Upload</label>
+        <input type="file" name="key" id="key" accept="application/pdf" />
+      </div>
+      <button type="submit" class="btn">Submit</button>
+    </form>
+  </body>
+</html>
