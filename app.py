@@ -4,6 +4,9 @@ from flask import Flask, request, render_template, redirect, url_for, flash
 from mysql.connector import connect, Error
 from werkzeug.utils import secure_filename
 from tk3_parser import process_pdfs  # We will create this from your tk3.py
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = "supersecret"
@@ -22,10 +25,10 @@ def allowed_file(filename):
 def get_mysql_connection():
     try:
         return connect(
-            host="localhost",
-            user="root",
-            password="root",
-            database="FMP"
+            host=os.getenv("DB_HOST"),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            database=os.getenv("DB_NAME")
         )
     except Error as e:
         print(f"Database connection error: {e}")
